@@ -210,8 +210,7 @@ public class SelenideTest {
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
-        $x("//*[contains(text(),'Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.')]").shouldBe(Condition.visible);
-        ;
+        $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
     }
 
     @Test
