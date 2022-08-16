@@ -6,13 +6,23 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Selenide.*;
 
 
 public class SelenideTest {
 
-    // @BeforeAll
+    public String generateDate(int days) {
+
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+    }
+
+    String planningDate = generateDate(3);
+
+    //@BeforeAll
     // static void setupAll() {
     // WebDriverManager.chromedriver().setup();
     //}
@@ -22,7 +32,8 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        //$("[data-test-id=date] .input__control").doubleClick().sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Михаил Александров");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -31,11 +42,45 @@ public class SelenideTest {
     }
 
     @Test
+    void shouldGetNotificationContent() {
+        Configuration.headless = true;
+        open("http://localhost:9999/");
+        $("[data-test-id=city] .input__control").setValue("Казань");
+        //$("[data-test-id=date] .input__control").doubleClick().sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
+        $("[name='name']").setValue("Михаил Александров");
+        $("[name='phone']").setValue("+79991234567");
+        $(By.className("checkbox__box")).click();
+        $(By.className("button__text")).click();
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
+
+    }
+    @Test
+    void shouldGetNotificationContentFixedDate() {
+        Configuration.headless = true;
+        open("http://localhost:9999/");
+        $("[data-test-id=city] .input__control").setValue("Казань");
+        //$("[data-test-id=date] .input__control").doubleClick().sendKeys(Keys.BACK_SPACE);
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys("20.05.2035");
+        $("[name='name']").setValue("Михаил Александров");
+        $("[name='phone']").setValue("+79991234567");
+        $(By.className("checkbox__box")).click();
+        $(By.className("button__text")).click();
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + "20.05.2035"), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
+
+    }
+
+
+    @Test
     void shouldTestCityCapitalLetters() {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("КАЗАНЬ");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Михаил Александров");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -48,7 +93,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Иван Иванов");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -61,7 +106,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Иван Копытин-Иванов");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -74,7 +119,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Иван Копытин Иванов");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -87,7 +132,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Анна - Мария Серго");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -100,7 +145,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Аушева Алёна");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -113,7 +158,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Аушева     Наталья");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -126,7 +171,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("ыуалоарыуопрокпрвжпрважлопрважопрвжпщквшпрвкдопадвжло");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -139,7 +184,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("О В");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -152,7 +197,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("САТТАРОВ АЛЕКСЕЙ");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -179,7 +224,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Копенгаген");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Михаил Александров");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -192,7 +237,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Moscow");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Михаил Александров");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -205,7 +250,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Наталья");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -218,7 +263,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
 
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -231,7 +276,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Ivan Petrov");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
@@ -245,7 +290,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
 
         $(By.className("checkbox__box")).click();
@@ -258,7 +303,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
         $("[name='phone']").setValue("79991234567");
         $(By.className("checkbox__box")).click();
@@ -271,7 +316,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
         $("[name='phone']").setValue("+79991234567812");
         $(By.className("checkbox__box")).click();
@@ -284,7 +329,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
         $("[name='phone']").setValue("%^^^^^^^^^^");
         $(By.className("checkbox__box")).click();
@@ -297,7 +342,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
         $("[name='phone']").setValue("+7999123456");
         $(By.className("checkbox__box")).click();
@@ -310,7 +355,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
         $("[name='phone']").setValue("Саттаров Алексей");
         $(By.className("checkbox__box")).click();
@@ -323,7 +368,7 @@ public class SelenideTest {
         Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("22.08.2022");
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(planningDate);
         $("[name='name']").setValue("Саттаров Алексей");
         $("[name='phone']").setValue("+799912345678");
 
