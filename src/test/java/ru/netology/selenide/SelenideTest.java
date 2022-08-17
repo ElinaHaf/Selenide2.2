@@ -39,6 +39,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -63,13 +66,14 @@ public class SelenideTest {
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
         //$("[data-test-id=date] .input__control").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("20.05.2035");
+        LocalDate.now().plusDays(12).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(generateDate(12));
         $("[name='name']").setValue("Михаил Александров");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $(".notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + "20.05.2035"), Duration.ofSeconds(15))
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(12)), Duration.ofSeconds(15))
                 .shouldBe(Condition.visible);
 
     }
@@ -86,6 +90,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -99,6 +106,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -112,6 +122,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -125,6 +138,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -138,6 +154,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -151,6 +170,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -164,6 +186,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -177,6 +202,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -190,6 +218,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -203,20 +234,27 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
     void shouldTestDistantDate() {
-        Configuration.headless = true;
+        //Configuration.headless = true;
         open("http://localhost:9999/");
         $("[data-test-id=city] .input__control").setValue("Казань");
         //$("[data-test-id=date] .input").doubleClick().sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id=date] .input__control").doubleClick().sendKeys("23.08.2025");
+        LocalDate.now().plusDays(365).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("[data-test-id=date] .input__control").doubleClick().sendKeys(generateDate(365));
         $("[name='name']").setValue("Аушева     Наталья");
         $("[name='phone']").setValue("+79991234567");
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(365)), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
@@ -256,6 +294,9 @@ public class SelenideTest {
         $(By.className("checkbox__box")).click();
         $(By.className("button__text")).click();
         $x("//*[contains(text(),'Успешно!')]").shouldBe(Condition.visible, Duration.ofSeconds(12));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 
     @Test
